@@ -8,6 +8,7 @@ public class Model {
     int[] Ground = new int[100];
 
 
+
     /**
      * ground = 0
      * plant = 1

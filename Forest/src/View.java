@@ -5,7 +5,6 @@ import javax.swing.*;
 import javax.swing.JFrame;
 
 public class View extends JFrame {
-
     Model model;
     Controller controller;
     Ground[] grounds = new Ground[100];
@@ -16,6 +15,7 @@ public class View extends JFrame {
         this.model = model;
         this.controller = controller;
 
+
         setTitle("10x10 Button Grid");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLayout(new GridLayout(10, 10));
@@ -24,7 +24,7 @@ public class View extends JFrame {
         for (int i = 0; i < 10; i++) {
             for (int j = 0; j < 10; j++) {
 
-                Ground button = new Ground(this.model, this.controller, i, j);
+                Ground button = new Ground(this.model, this.controller,this, i, j);
                 button.addActionListener(new ActionListener() {
                     @Override
                     public void actionPerformed(ActionEvent e) {
