@@ -8,8 +8,11 @@ public class Main {
 
     public Main() {
         this.model.initialise(view, controller);
+        System.out.println("controller done");
         this.controller.initialise(this.model, this.view);
+        System.out.println("controller done");
         this.view.initialise(this.model, this.controller);
+        System.out.println("controller done");
         this.controller.startup();
     }
 

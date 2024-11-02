@@ -2,8 +2,9 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.*;
+import javax.swing.JFrame;
 
-public class View {
+public class View extends JFrame {
 
     Model model;
     Controller controller;
@@ -14,26 +15,26 @@ public class View {
         this.model = model;
         this.controller = controller;
 
-        JFrame frame = new JFrame("10x10 Button Grid");
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setLayout(new GridLayout(10, 10));
+        setTitle("10x10 Button Grid");
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setLayout(new GridLayout(10, 10));
+        setSize(500, 500); // Set a size for the window
 
         for (int i = 0; i < 10; i++) {
             for (int j = 0; j < 10; j++) {
                 JButton button = new JButton(i + "," + j);
-                button.addActionListener(
-                    new ActionListener() {
-                        @Override
-                        public void actionPerformed(ActionEvent e) {
-                            System.out.println(
-                                "Button pressed: " + button.getText()
-                            );
-                        }
+                button.addActionListener(new ActionListener() {
+                    @Override
+                    public void actionPerformed(ActionEvent e) {
+                        System.out.println("Button pressed: " + button.getText());
                     }
-                );
-                frame.add(button);
+                });
+                add(button); // Add button to the frame directly
             }
         }
+
+        // Make the frame visible
+        setVisible(true);
     }
 
     public void feedbackToUser() {}
