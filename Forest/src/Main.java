@@ -7,10 +7,10 @@ public class Main {
     Model model = new Model();
 
     public Main() {
-        /*this.controller.initialise(this.model, this.view);
+        this.model.initialise(view, controller);
+        this.controller.initialise(this.model, this.view);
         this.view.initialise(this.model, this.controller);
-        this.controller.startup();*/
-
+        this.controller.startup();
     }
 
     public static void main(String[] args) {

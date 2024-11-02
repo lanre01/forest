@@ -1,14 +1,42 @@
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import javax.swing.*;
+
 public class View {
 
-    public View() {
+    Model model;
+    Controller controller;
 
+    public View() {}
+
+    public void initialise(Model model, Controller controller) {
+        this.model = model;
+        this.controller = controller;
+
+        JFrame frame = new JFrame("10x10 Button Grid");
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setLayout(new GridLayout(10, 10));
+
+        for (int i = 0; i < 10; i++) {
+            for (int j = 0; j < 10; j++) {
+                JButton button = new JButton(i + "," + j);
+                button.addActionListener(
+                    new ActionListener() {
+                        @Override
+                        public void actionPerformed(ActionEvent e) {
+                            System.out.println(
+                                "Button pressed: " + button.getText()
+                            );
+                        }
+                    }
+                );
+                frame.add(button);
+            }
+        }
     }
 
-    public void initialise(Model model, Controller controller) {}
-
-    public void feedbackToUser() {
-
-    }
+    public void feedbackToUser() {}
 
     /*private void createFrame() {
         this.player1.setLocationRelativeTo((Component)null);
@@ -73,7 +101,6 @@ public class View {
         this.player2.setVisible(true);
     }*/
 
-
     public void refreshView() {
         /*for(int y = 0; y < this.Height; ++y) {
             for(int x = 0; x < this.Width; ++x) {
@@ -93,5 +120,4 @@ public class View {
         this.panel1.repaint();
         this.panel2.repaint();*/
     }
-
 }
