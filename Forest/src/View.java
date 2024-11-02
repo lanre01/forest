@@ -8,6 +8,7 @@ public class View extends JFrame {
 
     Model model;
     Controller controller;
+    Ground[] grounds = new Ground[100];
 
     public View() {}
 
@@ -22,14 +23,16 @@ public class View extends JFrame {
 
         for (int i = 0; i < 10; i++) {
             for (int j = 0; j < 10; j++) {
-                Ground button = new Ground();
+
+                Ground button = new Ground(this.model, this.controller, i, j);
                 button.addActionListener(new ActionListener() {
                     @Override
                     public void actionPerformed(ActionEvent e) {
                         System.out.println("Button pressed: " + button.getText());
                     }
                 });
-                add(button); // Add button to the frame directly
+                grounds[(10 * i) + j] = button;
+                add(button); // Add button to the frame directly\
             }
         }
 
@@ -103,22 +106,11 @@ public class View extends JFrame {
     }*/
 
     public void refreshView() {
-        /*for(int y = 0; y < this.Height; ++y) {
-            for(int x = 0; x < this.Width; ++x) {
-                int value = this.model.getBoardContents(x, y);
-                if (value == 0) {
-                    this.Board1[x + y * this.Width].setDrawOval(false);
-                    this.Board2[x + y * this.Width].setDrawOval(false);
-                } else {
-                    this.Board1[x + y * this.Width].setDrawOval(true);
-                    this.Board2[x + y * this.Width].setDrawOval(true);
-                    this.Board1[x + y * this.Width].setcolorOval(value);
-                    this.Board2[x + y * this.Width].setcolorOval(value);
-                }
-            }
-        }
 
-        this.panel1.repaint();
-        this.panel2.repaint();*/
+        for(int i = 0; i < 10; i++) {
+           for(int j = 0; j < 10; j++) {
+                grounds[(10 * i) + j].refresh();
+           }
+        }
     }
 }
