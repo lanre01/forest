@@ -22,7 +22,7 @@ public class View extends JFrame {
 
         for (int i = 0; i < 10; i++) {
             for (int j = 0; j < 10; j++) {
-                JButton button = new JButton(i + "," + j);
+                Ground button = new Ground();
                 button.addActionListener(new ActionListener() {
                     @Override
                     public void actionPerformed(ActionEvent e) {
