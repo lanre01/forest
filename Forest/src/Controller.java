@@ -26,6 +26,9 @@ public class Controller {
     public static final int PLANT_RICE_PLANT = 5;
     int numberOfSeedsPlanted = 0;
     boolean simulationStarted = false;
+    Timer simulation;
+    ActionListener simulationTask;
+
 
     // Initialize colors for each plant type
     final Color[] InitColors = {
@@ -38,6 +41,13 @@ public class Controller {
     };
 
     public Controller() {
+        simulationTask = new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                updateSimulation();
+            }
+        
+        };
     }
 
     public void initialise(Model model, View view) {
@@ -58,13 +68,12 @@ public class Controller {
     }
 
     public void startSimulation() {
-        Timer timer = new Timer(1000, new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                updateSimulation();
-            }
-        });
-        timer.start();
+        simulation = new Timer(200, simulationTask);
+        simulation.start();
+    }
+
+    public void pauseSimulation() {
+        simulation.stop();
     }
 
 
@@ -72,14 +81,6 @@ public class Controller {
     public void startup() {
         initializeGrowthRates();
         initializeEnvironmentalFactors();
-
-        Timer timer = new Timer(1000, new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                updateSimulation();
-            }
-        });
-        //timer.start();
     }
 
     private void initializeGrowthRates() {

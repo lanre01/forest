@@ -66,33 +66,11 @@ public class View extends JFrame {
         topPanel.setBorder(BorderFactory.createEmptyBorder(0, 5, 0, 0)); 
         add(topPanel, BorderLayout.NORTH); // Add right panel to the east side of the frame
 
-        // Bottom panel for the ribbon of buttons
-        JPanel bottomPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
-        bottomPanel.add(Box.createHorizontalGlue());
-        for (int m = 0; m < 5; m++) { // Example of 5 buttons; adjust as needed
-            JButton bottomButton = new JButton("Plant " + (m + 1));
-            bottomPanel.add(bottomButton);
-        }
-        bottomPanel.add(Box.createHorizontalGlue());
-        add(bottomPanel, BorderLayout.SOUTH); // Add bottom panel to the south of the frame
-
-        // Make the frame visible
         setVisible(true);    
     }
 
     public void feedbackToUser() {}
 
-    public void customiseFilterRibbonBtns(JButton filterBtn) {
-        filterBtn.setFont(new Font("FantasqueSansM Nerd Font", Font.BOLD, 18)); // Change font type and size
-        // Set colors
-        filterBtn.setForeground(Color.decode("#21201d")); // Text color
-        filterBtn.setBackground(Color.WHITE); // Text color
-        // Set border
-        filterBtn.setBorder(BorderFactory.createLineBorder(Color.WHITE, 15)); // Black border
-        // Additional styling
-        filterBtn.setFocusPainted(false); // Remove focus outline
-        filterBtn.setOpaque(true); // Ensure the background color is rendered
-    }
 
     /*private void createFrame() {
         this.player1.setLocationRelativeTo((Component)null);

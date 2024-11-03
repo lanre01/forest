@@ -9,6 +9,7 @@ public class FilterButton extends ViewButton {
             case 1: // RAINFALL
                 this.addActionListener(e -> {
                     if (!this.clicked) {
+                        controller.pauseSimulation();
                         for (int i = 0; i < 10; i++) {
                             for(int j = 0; j < 10; j++) {
                                 int index = (10*i) + j;
@@ -17,6 +18,7 @@ public class FilterButton extends ViewButton {
                         }
                     }
                     else {
+                        controller.startSimulation();
                         for (int i = 0; i < 10; i++) {
                             for(int j = 0; j < 10; j++) {
                                 int index = (10*i) + j;
@@ -29,6 +31,7 @@ public class FilterButton extends ViewButton {
             case 2: // HUMIDITY
                 this.addActionListener(e -> {
                     if (!this.clicked) {
+                        controller.pauseSimulation();
                         for (int i = 0; i < 10; i++) {
                             for(int j = 0; j < 10; j++) {
                                 int index = (10*i) + j;
@@ -37,6 +40,7 @@ public class FilterButton extends ViewButton {
                         }
                     }
                     else {
+                        controller.startSimulation();
                         for (int i = 0; i < 10; i++) {
                             for(int j = 0; j < 10; j++) {
                                 int index = (10*i) + j;
@@ -49,6 +53,7 @@ public class FilterButton extends ViewButton {
             case 3: // SUNLIGHT
                 this.addActionListener(e -> {
                     if (!this.clicked) {
+                        controller.pauseSimulation();
                         for (int i = 0; i < 10; i++) {
                             for(int j = 0; j < 10; j++) {
                                 int index = (10*i) + j;
@@ -57,6 +62,7 @@ public class FilterButton extends ViewButton {
                         }
                     }
                     else {
+                        controller.startSimulation();
                         for (int i = 0; i < 10; i++) {
                             for(int j = 0; j < 10; j++) {
                                 int index = (10*i) + j;
