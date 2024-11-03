@@ -4,20 +4,25 @@ import javax.swing.*;
 public class ViewButton extends JButton {
     Boolean clicked;
     String color;
+    static Boolean otherClicked = false;
+    static ViewButton[] buttons;
 
     public ViewButton(String text, String color) {
         super(text);
         this.clicked = false;
         this.color = color;
+        
         this.addActionListener(e -> {
-            if(!this.clicked)
+            if(!this.clicked && !ViewButton.otherClicked)
             {
                 this.setBackground(Color.decode(color));
                 this.setBorder(BorderFactory.createLineBorder(Color.decode(color), 15)); // Black border
+                ViewButton.otherClicked = true;
             }
             else {
                 this.setBackground(Color.WHITE);
                 this.setBorder(BorderFactory.createLineBorder(Color.WHITE, 15)); // Black border
+                ViewButton.otherClicked = false;
             }
             this.toggleClicked();
 

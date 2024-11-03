@@ -5,7 +5,7 @@ import javax.swing.JFrame;
 public class View extends JFrame {
     Model model;
     Controller controller;
-    Ground[] grounds = new Ground[20*20];
+    Ground[] grounds = new Ground[100];
 
     int mapSize = 10;
 
@@ -42,9 +42,9 @@ public class View extends JFrame {
         JPanel topPanel = new JPanel();
         topPanel.add(Box.createHorizontalGlue());
         topPanel.setLayout(new BoxLayout(topPanel, BoxLayout.X_AXIS));
-        FilterButton rightRainfallViewButton = new FilterButton("Rainfall view", "#79e5de");
-        FilterButton rightHumidityViewButton = new FilterButton("Humidity View", "#c9c386");
-        FilterButton rightSunlightViewButton = new FilterButton("Sunlight View", "#f7d913");
+        FilterButton rightHumidityViewButton = new FilterButton("Humidity View", "#c9c386", this, controller, 2);
+        FilterButton rightRainfallViewButton = new FilterButton("Rainfall view", "#79e5de", this, controller, 1);
+        FilterButton rightSunlightViewButton = new FilterButton("Sunlight View", "#f7d913", this, controller, 3);
 
 
         topPanel.add(rightRainfallViewButton);

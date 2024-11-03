@@ -51,7 +51,7 @@ public class Controller {
                 updateSimulation();
             }
         });
-        timer.start();
+        //timer.start();
     }
 
     private void initializeGrowthRates() {
