@@ -4,8 +4,10 @@ public class Model {
     Controller controller;
     View view;
     int numberOfClicks = 0;
-    
-    int[] Ground = new int[20*20];
+    int[] Ground = new int[100];
+    int[] GroundValue = new int[100];
+    Color[] Colors = new Color[100];
+    double[] soiValue = new double[100];
 
 
 
@@ -18,8 +20,11 @@ public class Model {
 
     }
 
-    public void incNumberOfClicks() {
+    public void incNumberOfClicks(int x, int y) {
+
         this.numberOfClicks++;
+        this.GroundValue[(10*x) + y] = numberOfClicks;
+
     }
 
     public int getNumberOfClicks() {
@@ -38,8 +43,21 @@ public class Model {
 
     }
 
+    public double getSoilValue(int x, int y) {
+        return soiValue[(10 * x) + y];
+    }
+
+
+    public void setSoilValue(double soil, int x, int y) {
+        this.soiValue[(10*x) + y] = soil;
+    }
+
+
     public Color getButtonColor(int x, int y) {
-        return null;
+        return Colors[(10*x) + y];
+    }
+    public void setButtonColor(Color color, int x, int y) {
+        Colors[(10 * x) + y] = color;
     }
 
     public String getButtonPlant(int x, int y) {

@@ -26,7 +26,7 @@ public class Ground extends JButton {
             @Override
             public void actionPerformed(ActionEvent e) {
                 if (!clicked && model.canClick()) {
-                    model.incNumberOfClicks();
+                    model.incNumberOfClicks(x, y);
                     model.setPlant(1, x, y);
                     animateColorTransition(Color.GREEN);  // Start color transition for initial plant
                     spreadToNeighbors(x, y, 1, true);  // Set to true for sporadic spread, false for sequential

@@ -1,8 +1,5 @@
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import javax.swing.*;
-import javax.swing.border.EmptyBorder;
 import javax.swing.JFrame;
 
 public class View extends JFrame {
@@ -31,6 +28,7 @@ public class View extends JFrame {
             for (int j = 0; j < mapSize; j++) {
                 Ground button = new Ground(this.model, this.controller, this, i, j);
                 grounds[(mapSize * i) + j] = button;
+                model.setSoilValue(Math.random(), i, j);
                 gridPanel.add(button); // Add each button to the grid panel
             }
         }
