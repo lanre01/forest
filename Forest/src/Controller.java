@@ -52,7 +52,6 @@ public class Controller {
             public void actionPerformed(ActionEvent e) {
                 updateSimulation();
             }
-        
         };
 
         simulation = new Timer(200, simulationTask);
@@ -70,16 +69,17 @@ public class Controller {
     public void seedPlanted() {
         numberOfSeedsPlanted++;
         if (numberOfSeedsPlanted == 5 && !simulationStarted) {
-            simulationStarted = true;
             startSimulation();
         }
     }
 
     public void startSimulation() {
+        simulationStarted = true;
         simulation.start();
     }
 
     public void pauseSimulation() {
+        simulationStarted = false;
         simulation.stop();
     }
 

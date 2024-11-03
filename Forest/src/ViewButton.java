@@ -7,12 +7,15 @@ public class ViewButton extends JButton {
     static Boolean otherClicked = false;
     static ViewButton[] buttons;
 
-    public ViewButton(String text, String color) {
+    public ViewButton(String text, String color, Controller controller) {
         super(text);
         this.clicked = false;
         this.color = color;
         
         this.addActionListener(e -> {
+            if (controller.numberOfSeedsPlanted > 0 && controller.numberOfSeedsPlanted < 5 && !controller.simulationStarted) {
+                return;
+            }
             if(!this.clicked && !ViewButton.otherClicked)
             {
                 this.setBackground(Color.decode(color));

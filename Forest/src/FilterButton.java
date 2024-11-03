@@ -3,11 +3,14 @@ import javax.swing.*;
 
 public class FilterButton extends ViewButton {
     public FilterButton(String text, String color, View view, Controller controller, int factor) {
-        super(text, color);
+        super(text, color, controller);
 
         switch (factor) {
             case 1: // RAINFALL
                 this.addActionListener(e -> {
+                    if (controller.numberOfSeedsPlanted > 0 && controller.numberOfSeedsPlanted < 5 && !controller.simulationStarted) {
+                        return;
+                    }
                     if (!this.clicked) {
                         controller.pauseSimulation();
                         for (int i = 0; i < 10; i++) {
@@ -17,8 +20,9 @@ public class FilterButton extends ViewButton {
                             }
                         }
                     }
-                    else {
-                        controller.startSimulation();
+                    else{
+                        if (controller.numberOfSeedsPlanted > 0)
+                            controller.startSimulation();
                         for (int i = 0; i < 10; i++) {
                             for(int j = 0; j < 10; j++) {
                                 int index = (10*i) + j;
@@ -30,6 +34,10 @@ public class FilterButton extends ViewButton {
                 break;
             case 2: // HUMIDITY
                 this.addActionListener(e -> {
+                    if (controller.numberOfSeedsPlanted > 0 && controller.numberOfSeedsPlanted < 5 && !controller.simulationStarted) {
+                        return;
+                    }
+                    System.out.println(controller.numberOfSeedsPlanted);
                     if (!this.clicked) {
                         controller.pauseSimulation();
                         for (int i = 0; i < 10; i++) {
@@ -40,7 +48,8 @@ public class FilterButton extends ViewButton {
                         }
                     }
                     else {
-                        controller.startSimulation();
+                        if (controller.numberOfSeedsPlanted > 0)
+                            controller.startSimulation();
                         for (int i = 0; i < 10; i++) {
                             for(int j = 0; j < 10; j++) {
                                 int index = (10*i) + j;
@@ -52,6 +61,10 @@ public class FilterButton extends ViewButton {
                 break;
             case 3: // SUNLIGHT
                 this.addActionListener(e -> {
+                    if (controller.numberOfSeedsPlanted > 0 && controller.numberOfSeedsPlanted < 5 && !controller.simulationStarted) {
+                        return;
+                    }
+                    System.out.println(controller.numberOfSeedsPlanted);
                     if (!this.clicked) {
                         controller.pauseSimulation();
                         for (int i = 0; i < 10; i++) {
@@ -62,7 +75,8 @@ public class FilterButton extends ViewButton {
                         }
                     }
                     else {
-                        controller.startSimulation();
+                        if (controller.numberOfSeedsPlanted > 0)
+                            controller.startSimulation();
                         for (int i = 0; i < 10; i++) {
                             for(int j = 0; j < 10; j++) {
                                 int index = (10*i) + j;
