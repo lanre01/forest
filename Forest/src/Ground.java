@@ -49,6 +49,7 @@ public class Ground extends JButton {
                         clicked = true;
 
                         // Notify the controller that a seed has been planted
+                        model.setPlantCount(plantTypeId);
                         controller.seedPlanted();
                     }
                 }

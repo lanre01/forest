@@ -7,6 +7,13 @@ public class View extends JFrame {
     Controller controller;
     Ground[] grounds = new Ground[View.mapSize*View.mapSize];
 
+
+    PlantsButton cactCountBtn;
+    PlantsButton oakCountBtn;
+    PlantsButton fernCountBtn;
+    PlantsButton pineCountBtn;
+    PlantsButton riceCountBtn;
+
     static final int mapSize = 200;
 
 
@@ -75,6 +82,19 @@ public class View extends JFrame {
         PlantsButton pineTreeLegend = new PlantsButton("Pine Tree", controller.InitColors[4], Color.BLACK);
         PlantsButton ricePlantLegend = new PlantsButton("Rice Plant", controller.InitColors[5], Color.WHITE);
 
+        JPanel leftPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
+        cactCountBtn = new PlantsButton("Cactus Count: 0", controller.InitColors[1], Color.WHITE);
+        oakCountBtn = new PlantsButton("Oak Wood Count: 0", controller.InitColors[2], Color.BLACK);
+        fernCountBtn = new PlantsButton("Fern Count: 0", controller.InitColors[3], Color.WHITE);
+        pineCountBtn = new PlantsButton("Pine Tree Count: 0", controller.InitColors[4], Color.BLACK);
+        riceCountBtn = new PlantsButton("Rice Plant Count: 0", controller.InitColors[5], Color.WHITE);
+
+        leftPanel.add(cactCountBtn);
+        leftPanel.add(oakCountBtn);
+        leftPanel.add(fernCountBtn);
+        leftPanel.add(pineCountBtn);
+        leftPanel.add(riceCountBtn);
+
         bottomPanel.add(ricePlantLegend);
         bottomPanel.add(oakTreeLegend);
         bottomPanel.add(cactusLegend);
@@ -82,6 +102,7 @@ public class View extends JFrame {
         bottomPanel.add(pineTreeLegend);
         bottomPanel.add(Box.createHorizontalGlue());
         add(bottomPanel, BorderLayout.SOUTH); // Add bottom panel to the south of the frame
+        add(leftPanel, BorderLayout.WEST);
         setVisible(true);    
     }
 
@@ -94,5 +115,13 @@ public class View extends JFrame {
                 grounds[(mapSize * i) + j].refresh();
            }
         }
+
+        int[] counts = model.getPlantCount();
+
+        this.oakCountBtn.setText("Oak Wood Count: "+counts[0]);
+        this.cactCountBtn.setText("Cactus Count: "+counts[1]);
+        this.fernCountBtn.setText("Fern Count: "+counts[2]);
+        this.pineCountBtn.setText("Pine Tree Count: "+counts[3]);
+        this.riceCountBtn.setText("Rice Plant Count: "+counts[4]);
     }
 }

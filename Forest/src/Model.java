@@ -9,7 +9,7 @@ public class Model {
     Color[] Colors = new Color[View.mapSize*View.mapSize];
     double[] soiValue = new double[View.mapSize*View.mapSize];
 
-
+    int[] plantCount = {0 , 0 , 0, 0, 0};
 
     /**
      * ground = 0
@@ -62,5 +62,19 @@ public class Model {
 
     public String getButtonPlant(int x, int y) {
         return null;
+    }
+
+    public int[] getPlantCount() {return plantCount;}
+
+    public void setPlantCount(int plant) {
+        if(plant <= 0) return;
+
+        plantCount[plant - 1]++;
+    }
+
+    public void setPlantDecreaseCount(int plant) {
+        if(plant <= 0) return;
+
+        plantCount[plant - 1]--;
     }
 }

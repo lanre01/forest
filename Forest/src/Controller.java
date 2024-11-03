@@ -278,8 +278,10 @@ public class Controller {
         for (Point p : neighbors) {
             if (spreadCount >= spreadLimit - random()) break;
             int index = (View.mapSize * p.x) + p.y;
+            model.setPlantDecreaseCount(Plants[index]);
             Plants[index] = plantType;
-            growthRate[index] = 0.5; // Starting growth rate
+            model.setPlantCount(plantType);
+            growthRate[index] = 0.3; // Starting growth rate
             plantAges[index] = 0;
             adjustCellColor(index);
             spreadCount++;
