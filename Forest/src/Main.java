@@ -13,7 +13,6 @@ public class Main {
         System.out.println("controller done");
         this.view.initialise(this.model, this.controller);
         System.out.println("controller done");
-        this.controller.startup();
     }
 
     public static void main(String[] args) {

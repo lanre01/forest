@@ -201,7 +201,7 @@ public class Controller {
         }
 
         // Limit the spread
-        int spreadLimit = 4;
+        int spreadLimit = 2;
         int spreadCount = 0;
 
         for (Point p : neighbors) {
