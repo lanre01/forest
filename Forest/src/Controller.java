@@ -5,6 +5,8 @@ import javax.swing.Timer;
 import java.util.*;
 import java.util.List;
 
+import static java.lang.Math.random;
+
 public class Controller {
 
     Model model;
@@ -22,6 +24,8 @@ public class Controller {
     public static final int PLANT_FERN = 3;
     public static final int PLANT_PINE_TREE = 4;
     public static final int PLANT_RICE_PLANT = 5;
+    int numberOfSeedsPlanted = 0;
+    boolean simulationStarted = false;
 
     // Initialize colors for each plant type
     final Color[] InitColors = {
@@ -39,7 +43,31 @@ public class Controller {
     public void initialise(Model model, View view) {
         this.model = model;
         this.view = view;
+
+        // Initialize growth rates and environmental factors but do not start the simulation yet
+        initializeGrowthRates();
+        initializeEnvironmentalFactors();
     }
+
+    public void seedPlanted() {
+        numberOfSeedsPlanted++;
+        if (numberOfSeedsPlanted == 5 && !simulationStarted) {
+            simulationStarted = true;
+            startSimulation();
+        }
+    }
+
+    public void startSimulation() {
+        Timer timer = new Timer(1000, new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                updateSimulation();
+            }
+        });
+        timer.start();
+    }
+
+
 
     public void startup() {
         initializeGrowthRates();
@@ -62,18 +90,20 @@ public class Controller {
 
     private void initializeEnvironmentalFactors() {
         for (int i = 0; i < 100; i++) {
-            HUMIDITY[i] = Math.random();
-            RAINFALL[i] = Math.random();
-            SUNLIGHT[i] = Math.random();
+            // Set environmental factors to favorable values between 0.6 and 1.0
+            HUMIDITY[i] =  0.4 * random();
+            RAINFALL[i] =  0.4 * random();
+            SUNLIGHT[i] =  0.4 * random();
         }
     }
+
 
     private void updateSimulation() {
         for (int i = 0; i < 100; i++) {
             if (Plants[i] > PLANT_NONE) {
                 propagationFunction(i, Plants[i]);
 
-                if (growthRate[i] < 0.1) {
+                if (growthRate[i] < 0.01) {
                     // Plant dies
                     Plants[i] = PLANT_NONE;
                     growthRate[i] = 0.0;
@@ -82,8 +112,8 @@ public class Controller {
                     model.setButtonColor(Color.WHITE, x, y);
                 } else {
                     adjustCellColor(i);
-                    // Spread if growth rate is high
-                    if (growthRate[i] > 0.8) {
+                    // Spread if growth rate is high (lowered threshold from 0.8 to 0.6)
+                    if (growthRate[i] > 0.9 && random() < 0.5) {
                         int x = i / 10;
                         int y = i % 10;
                         spreadToNeighbors(x, y, Plants[i], true);
@@ -93,6 +123,7 @@ public class Controller {
         }
         view.refreshView();
     }
+
 
     private void adjustCellColor(int index) {
         int plantType = Plants[index];
@@ -120,19 +151,19 @@ public class Controller {
     private void propagationFunction(int index, int plant) {
         switch (plant) {
             case PLANT_OAK_TREE:
-                growthRate[index] += calculateGrowth(index, 0.6, 0.9, 0.4, 0.7, 0.4, 0.6);
+                growthRate[index] += calculateGrowth(index, 0.5, 1.0, 0.3, 1.0, 0.3, 1.0);
                 break;
             case PLANT_CACTUS:
-                growthRate[index] += calculateGrowth(index, 0.8, 1.0, 0.1, 0.3, 0.1, 0.4);
+                growthRate[index] += calculateGrowth(index, 0.5, 1.0, 0.1, 1.0, 0.1, 1.0);
                 break;
             case PLANT_FERN:
-                growthRate[index] += calculateGrowth(index, 0.2, 0.5, 0.7, 0.9, 0.7, 0.9);
+                growthRate[index] += calculateGrowth(index, 0.2, 1.0, 0.5, 1.0, 0.5, 1.0);
                 break;
             case PLANT_PINE_TREE:
-                growthRate[index] += calculateGrowth(index, 0.5, 0.8, 0.3, 0.6, 0.3, 0.5);
+                growthRate[index] += calculateGrowth(index, 0.5, 1.0, 0.3, 1.0, 0.3, 1.0);
                 break;
             case PLANT_RICE_PLANT:
-                growthRate[index] += calculateGrowth(index, 0.6, 0.8, 0.7, 0.9, 0.6, 0.9);
+                growthRate[index] += calculateGrowth(index, 0.5, 1.0, 0.5, 1.0, 0.5, 1.0);
                 break;
             default:
                 return;
@@ -140,12 +171,14 @@ public class Controller {
         growthRate[index] = Math.max(0.0, Math.min(growthRate[index], 1.0));
     }
 
+
     private double calculateGrowth(int index, double sunMin, double sunMax, double rainMin, double rainMax, double humMin, double humMax) {
         double sunFactor = (SUNLIGHT[index] >= sunMin && SUNLIGHT[index] <= sunMax) ? SUNLIGHT[index] : -SUNLIGHT[index];
         double rainFactor = (RAINFALL[index] >= rainMin && RAINFALL[index] <= rainMax) ? RAINFALL[index] : -RAINFALL[index];
         double humFactor = (HUMIDITY[index] >= humMin && HUMIDITY[index] <= humMax) ? HUMIDITY[index] : -HUMIDITY[index];
         return (sunFactor + rainFactor + humFactor) / 3;
     }
+
 
     private void spreadToNeighbors(int x, int y, int plantType, boolean sporadic) {
         List<Point> neighbors = new ArrayList<>();
@@ -171,11 +204,11 @@ public class Controller {
         }
 
         // Limit the spread
-        int spreadLimit = 2;
+        int spreadLimit = 1;
         int spreadCount = 0;
 
         for (Point p : neighbors) {
-            if (spreadCount >= spreadLimit) break;
+            if (spreadCount >= spreadLimit - random()) break;
             int index = (10 * p.x) + p.y;
             Plants[index] = plantType;
             growthRate[index] = 0.5; // Starting growth rate
