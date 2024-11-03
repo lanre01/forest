@@ -5,6 +5,8 @@ import javax.swing.Timer;
 import java.util.*;
 import java.util.List;
 
+import static java.lang.Math.random;
+
 public class Controller {
 
     Model model;
@@ -89,9 +91,9 @@ public class Controller {
     private void initializeEnvironmentalFactors() {
         for (int i = 0; i < 100; i++) {
             // Set environmental factors to favorable values between 0.6 and 1.0
-            HUMIDITY[i] = 0.6 + 0.4 * Math.random();
-            RAINFALL[i] = 0.6 + 0.4 * Math.random();
-            SUNLIGHT[i] = 0.6 + 0.4 * Math.random();
+            HUMIDITY[i] =  0.4 * random();
+            RAINFALL[i] =  0.4 * random();
+            SUNLIGHT[i] =  0.4 * random();
         }
     }
 
@@ -101,7 +103,7 @@ public class Controller {
             if (Plants[i] > PLANT_NONE) {
                 propagationFunction(i, Plants[i]);
 
-                if (growthRate[i] < 0.1) {
+                if (growthRate[i] < 0.01) {
                     // Plant dies
                     Plants[i] = PLANT_NONE;
                     growthRate[i] = 0.0;
@@ -111,7 +113,7 @@ public class Controller {
                 } else {
                     adjustCellColor(i);
                     // Spread if growth rate is high (lowered threshold from 0.8 to 0.6)
-                    if (growthRate[i] > 0.6) {
+                    if (growthRate[i] > 0.9 && random() < 0.5) {
                         int x = i / 10;
                         int y = i % 10;
                         spreadToNeighbors(x, y, Plants[i], true);
@@ -171,12 +173,13 @@ public class Controller {
 
 
     private double calculateGrowth(int index, double sunMin, double sunMax, double rainMin, double rainMax, double humMin, double humMax) {
-        // Use a reduced contribution instead of negative when conditions are not ideal
-        double sunFactor = (SUNLIGHT[index] >= sunMin && SUNLIGHT[index] <= sunMax) ? SUNLIGHT[index] : SUNLIGHT[index] * 0.5;
-        double rainFactor = (RAINFALL[index] >= rainMin && RAINFALL[index] <= rainMax) ? RAINFALL[index] : RAINFALL[index] * 0.5;
-        double humFactor = (HUMIDITY[index] >= humMin && HUMIDITY[index] <= humMax) ? HUMIDITY[index] : HUMIDITY[index] * 0.5;
+        double sunFactor = (SUNLIGHT[index] >= sunMin && SUNLIGHT[index] <= sunMax) ? SUNLIGHT[index] : -SUNLIGHT[index];
+        double rainFactor = (RAINFALL[index] >= rainMin && RAINFALL[index] <= rainMax) ? RAINFALL[index] : -RAINFALL[index];
+        double humFactor = (HUMIDITY[index] >= humMin && HUMIDITY[index] <= humMax) ? HUMIDITY[index] : -HUMIDITY[index];
         return (sunFactor + rainFactor + humFactor) / 3;
     }
+
+
     private void spreadToNeighbors(int x, int y, int plantType, boolean sporadic) {
         List<Point> neighbors = new ArrayList<>();
 
@@ -201,11 +204,11 @@ public class Controller {
         }
 
         // Limit the spread
-        int spreadLimit = 2;
+        int spreadLimit = 1;
         int spreadCount = 0;
 
         for (Point p : neighbors) {
-            if (spreadCount >= spreadLimit) break;
+            if (spreadCount >= spreadLimit - random()) break;
             int index = (10 * p.x) + p.y;
             Plants[index] = plantType;
             growthRate[index] = 0.5; // Starting growth rate

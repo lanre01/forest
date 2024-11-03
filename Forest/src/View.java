@@ -9,7 +9,19 @@ public class View extends JFrame {
     Controller controller;
     Ground[] grounds = new Ground[100];
 
-    public View() {}
+    public View() {
+        try {
+            UIManager.setLookAndFeel(UIManager.getCrossPlatformLookAndFeelClassName());
+        } catch (ClassNotFoundException e) {
+            throw new RuntimeException(e);
+        } catch (InstantiationException e) {
+            throw new RuntimeException(e);
+        } catch (IllegalAccessException e) {
+            throw new RuntimeException(e);
+        } catch (UnsupportedLookAndFeelException e) {
+            throw new RuntimeException(e);
+        }
+    }
 
     public void initialise(Model model, Controller controller) {
         this.model = model;
