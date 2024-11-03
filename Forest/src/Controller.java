@@ -1,6 +1,5 @@
 import java.awt.*;
 import java.awt.event.*;
-import javax.swing.*;
 import javax.swing.Timer;
 import java.util.*;
 import java.util.List;
@@ -11,13 +10,13 @@ public class Controller {
 
     Model model;
     View view;
-    double[] growthRate = new double[100];
+    double[] growthRate = new double[View.mapSize*View.mapSize];
     // Environmental factors
-    double[] HUMIDITY = new double[100];
-    double[] RAINFALL = new double[100];
-    double[] SUNLIGHT = new double[100];
-    int[] Plants = new int[100];
-    int[] plantAges = new int[100]; // To track the age of each plant
+    double[] HUMIDITY = new double[View.mapSize*View.mapSize];
+    double[] RAINFALL = new double[View.mapSize*View.mapSize];
+    double[] SUNLIGHT = new double[View.mapSize*View.mapSize];
+    int[] Plants = new int[View.mapSize*View.mapSize];
+    int[] plantAges = new int[View.mapSize*View.mapSize]; // To track the age of each plant
     int simulationSteps = 0;
 
     // Plant type constants
@@ -91,14 +90,14 @@ public class Controller {
     }
 
     private void initializeGrowthRates() {
-        for (int i = 0; i < 100; i++) {
+        for (int i = 0; i < View.mapSize*View.mapSize; i++) {
             growthRate[i] = 0.0;
             plantAges[i] = 0;
         }
     }
 
     private void initializeEnvironmentalFactors() {
-        for (int i = 0; i < 100; i++) {
+        for (int i = 0; i < View.mapSize*View.mapSize; i++) {
             HUMIDITY[i] = 0.4 * random();
             RAINFALL[i] = 0.4 * random();
             SUNLIGHT[i] = 0.4 * random();
@@ -108,7 +107,7 @@ public class Controller {
     private void updateSimulation() {
         simulationSteps++;
 
-        for (int i = 0; i < 100; i++) {
+        for (int i = 0; i < View.mapSize*View.mapSize; i++) {
             if (Plants[i] > PLANT_NONE) {
                 // Increment plant age
                 plantAges[i]++;
@@ -118,8 +117,8 @@ public class Controller {
                     Plants[i] = PLANT_NONE;
                     growthRate[i] = 0.0;
                     plantAges[i] = 0;
-                    int x = i / 10;
-                    int y = i % 10;
+                    int x = i / View.mapSize;
+                    int y = i % View.mapSize;
                     model.setButtonColor(Color.WHITE, x, y);
                     continue;
                 }
@@ -131,15 +130,15 @@ public class Controller {
                     Plants[i] = PLANT_NONE;
                     growthRate[i] = 0.0;
                     plantAges[i] = 0;
-                    int x = i / 10;
-                    int y = i % 10;
+                    int x = i / View.mapSize;
+                    int y = i % View.mapSize;
                     model.setButtonColor(Color.WHITE, x, y);
                 } else {
                     adjustCellColor(i);
 
                     if (growthRate[i] > 0.6) {
-                        int x = i / 10;
-                        int y = i % 10;
+                        int x = i / View.mapSize;
+                        int y = i % View.mapSize;
                         spreadToNeighbors(x, y, Plants[i], true);
                     }
                 }
@@ -152,7 +151,7 @@ public class Controller {
         }
 
         // Periodically update environmental factors
-        if (simulationSteps % 10 == 0) {
+        if (simulationSteps % View.mapSize == 0) {
             updateEnvironmentalFactors();
         }
 
@@ -160,7 +159,7 @@ public class Controller {
     }
 
     private void spontaneousGrowth() {
-        for (int i = 0; i < 100; i++) {
+        for (int i = 0; i < View.mapSize*View.mapSize; i++) {
             if (Plants[i] == PLANT_NONE) {
                 if (Math.random() < 0.01) { // 1% chance per empty cell
                     int plantType = 1 + new Random().nextInt(5); // Plant types 1 to 5
@@ -174,7 +173,7 @@ public class Controller {
     }
 
     private void updateEnvironmentalFactors() {
-        for (int i = 0; i < 100; i++) {
+        for (int i = 0; i < View.mapSize*View.mapSize; i++) {
             HUMIDITY[i] += (Math.random() - 0.5) * 0.1; // Small random changes
             HUMIDITY[i] = Math.max(0.0, Math.min(HUMIDITY[i], 1.0));
 
@@ -189,8 +188,8 @@ public class Controller {
     private void adjustCellColor(int index) {
         int plantType = Plants[index];
         if (plantType == PLANT_NONE) {
-            int x = index / 10;
-            int y = index % 10;
+            int x = index / View.mapSize;
+            int y = index % View.mapSize;
             model.setButtonColor(Color.WHITE, x, y);
             return;
         }
@@ -203,8 +202,8 @@ public class Controller {
                 null);
         float brightness = (float) (0.2 + (0.8 * growthRate[index]));
         Color adjustedColor = Color.getHSBColor(hsbVals[0], hsbVals[1], brightness);
-        int x = index / 10;
-        int y = index % 10;
+        int x = index / View.mapSize;
+        int y = index % View.mapSize;
         model.setButtonColor(adjustedColor, x, y);
     }
 
@@ -258,9 +257,9 @@ public class Controller {
                 int nx = x + dx;
                 int ny = y + dy;
 
-                if (nx < 0 || ny < 0 || nx >= 10 || ny >= 10 || (dx == 0 && dy == 0)) continue;
+                if (nx < 0 || ny < 0 || nx >= View.mapSize || ny >= View.mapSize || (dx == 0 && dy == 0)) continue;
 
-                int index = (10 * nx) + ny;
+                int index = (View.mapSize * nx) + ny;
                 if (Plants[index] == PLANT_NONE) {
                     neighbors.add(new Point(nx, ny));
                 }
@@ -278,7 +277,7 @@ public class Controller {
 
         for (Point p : neighbors) {
             if (spreadCount >= spreadLimit - random()) break;
-            int index = (10 * p.x) + p.y;
+            int index = (View.mapSize * p.x) + p.y;
             Plants[index] = plantType;
             growthRate[index] = 0.5; // Starting growth rate
             plantAges[index] = 0;

@@ -42,8 +42,8 @@ public class Ground extends JButton {
                         int plantTypeId = plantType + 1; // Plant types start from 1
                         model.incNumberOfClicks(x, y);
                         model.setPlant(plantTypeId, x, y);
-                        controller.Plants[(10 * x) + y] = plantTypeId;
-                        controller.growthRate[(10 * x) + y] = 0.8; // Starting growth rate increased
+                        controller.Plants[(View.mapSize * x) + y] = plantTypeId;
+                        controller.growthRate[(View.mapSize * x) + y] = 0.8; // Starting growth rate increased
                         Color baseColor = controller.InitColors[plantTypeId];
                         animateColorTransition(baseColor);
                         clicked = true;
@@ -76,9 +76,9 @@ public class Ground extends JButton {
 
     private void updateCellColor(int x, int y, int plantType) {
         if (plantType == 1) {
-            view.grounds[(view.mapSize * x) + y].animateColorTransition(Color.GREEN);  // Animated color change for plant type 1
+            view.grounds[(View.mapSize * x) + y].animateColorTransition(Color.GREEN);  // Animated color change for plant type 1
         } else {
-            view.grounds[(view.mapSize * x) + y].animateColorTransition(Color.LIGHT_GRAY);  // Default color
+            view.grounds[(View.mapSize * x) + y].animateColorTransition(Color.LIGHT_GRAY);  // Default color
         }
     }
 
@@ -91,9 +91,9 @@ public class Ground extends JButton {
                 int nx = x + dx;
                 int ny = y + dy;
 
-                if (nx < 0 || ny < 0 || nx >= view.mapSize || ny >= view.mapSize || (dx == 0 && dy == 0)) continue;
+                if (nx < 0 || ny < 0 || nx >= View.mapSize || ny >= View.mapSize || (dx == 0 && dy == 0)) continue;
 
-                if (model.Ground[(view.mapSize * nx) + ny] == 0) {  // Check if neighboring cell is empty
+                if (model.Ground[(View.mapSize * nx) + ny] == 0) {  // Check if neighboring cell is empty
                     neighbors.add(new Point(nx, ny));
                 }
             }
