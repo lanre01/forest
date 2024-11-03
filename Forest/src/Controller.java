@@ -48,6 +48,8 @@ public class Controller {
             }
         
         };
+
+        simulation = new Timer(200, simulationTask);
     }
 
     public void initialise(Model model, View view) {
@@ -68,19 +70,11 @@ public class Controller {
     }
 
     public void startSimulation() {
-        simulation = new Timer(200, simulationTask);
         simulation.start();
     }
 
     public void pauseSimulation() {
         simulation.stop();
-        Timer timer = new Timer(500, new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                updateSimulation();
-            }
-        });
-        timer.start();
     }
 
 
