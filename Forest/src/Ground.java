@@ -43,10 +43,13 @@ public class Ground extends JButton {
                         model.incNumberOfClicks(x, y);
                         model.setPlant(plantTypeId, x, y);
                         controller.Plants[(10 * x) + y] = plantTypeId;
-                        controller.growthRate[(10 * x) + y] = 0.5; // Starting growth rate
+                        controller.growthRate[(10 * x) + y] = 0.8; // Starting growth rate increased
                         Color baseColor = controller.InitColors[plantTypeId];
                         animateColorTransition(baseColor);
                         clicked = true;
+
+                        // Notify the controller that a seed has been planted
+                        controller.seedPlanted();
                     }
                 }
             }
