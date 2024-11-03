@@ -56,9 +56,9 @@ public class Ground extends JButton {
 
     private void updateCellColor(int x, int y, int plantType) {
         if (plantType == 1) {
-            view.grounds[(10 * x) + y].animateColorTransition(Color.GREEN);  // Animated color change for plant type 1
+            view.grounds[(view.mapSize * x) + y].animateColorTransition(Color.GREEN);  // Animated color change for plant type 1
         } else {
-            view.grounds[(10 * x) + y].animateColorTransition(Color.LIGHT_GRAY);  // Default color
+            view.grounds[(view.mapSize * x) + y].animateColorTransition(Color.LIGHT_GRAY);  // Default color
         }
     }
 
@@ -71,9 +71,9 @@ public class Ground extends JButton {
                 int nx = x + dx;
                 int ny = y + dy;
 
-                if (nx < 0 || ny < 0 || nx >= 10 || ny >= 10 || (dx == 0 && dy == 0)) continue;
+                if (nx < 0 || ny < 0 || nx >= view.mapSize || ny >= view.mapSize || (dx == 0 && dy == 0)) continue;
 
-                if (model.Ground[(10 * nx) + ny] == 0) {  // Check if neighboring cell is empty
+                if (model.Ground[(view.mapSize * nx) + ny] == 0) {  // Check if neighboring cell is empty
                     neighbors.add(new Point(nx, ny));
                 }
             }
@@ -92,6 +92,8 @@ public class Ground extends JButton {
             public void actionPerformed(ActionEvent e) {
                 if (index < neighbors.size()) {
                     Point p = neighbors.get(index);
+                    System.out.println(p.x);
+                    System.out.println(p.y);
                     model.setPlant(plantType, p.x, p.y);
                     updateCellColor(p.x, p.y, plantType);
                     index++;

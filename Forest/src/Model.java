@@ -5,7 +5,7 @@ public class Model {
     View view;
     int numberOfClicks = 0;
     
-    int[] Ground = new int[100];
+    int[] Ground = new int[20*20];
 
 
 

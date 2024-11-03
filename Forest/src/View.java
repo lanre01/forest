@@ -2,45 +2,87 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.*;
+import javax.swing.border.EmptyBorder;
 import javax.swing.JFrame;
 
 public class View extends JFrame {
     Model model;
     Controller controller;
-    Ground[] grounds = new Ground[100];
+    Ground[] grounds = new Ground[20*20];
+
+    int mapSize = 20;
 
     public View() {}
 
     public void initialise(Model model, Controller controller) {
+        // Set up main frame properties
         this.model = model;
         this.controller = controller;
-
-
         setTitle("10x10 Button Grid");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setLayout(new GridLayout(10, 10));
-        setSize(500, 500); // Set a size for the window
+        setSize(1920, 1080);
+        setLayout(new BorderLayout()); // Use BorderLayout for main frame
+                                       //
+        // Center panel for the 10x10 grid with a fixed size
+        JPanel gridPanel = new JPanel(new GridLayout(mapSize, mapSize));
+        gridPanel.setPreferredSize(new Dimension(900, 900)); // Set fixed size for grid
 
-        for (int i = 0; i < 10; i++) {
-            for (int j = 0; j < 10; j++) {
-
-                Ground button = new Ground(this.model, this.controller,this, i, j);
-                button.addActionListener(new ActionListener() {
-                    @Override
-                    public void actionPerformed(ActionEvent e) {
-                        System.out.println("Button pressed: " + button.getText());
-                    }
-                });
-                grounds[(10 * i) + j] = button;
-                add(button); // Add button to the frame directly\
+        for (int i = 0; i < mapSize; i++) {
+            for (int j = 0; j < mapSize; j++) {
+                Ground button = new Ground(this.model, this.controller, this, i, j);
+                grounds[(mapSize * i) + j] = button;
+                gridPanel.add(button); // Add each button to the grid panel
             }
         }
 
+        // Wrapper panel to center-align gridPanel
+        JPanel centerWrapper = new JPanel(new GridBagLayout()); // Use GridBagLayout for centering
+        centerWrapper.add(gridPanel); // Add grid to the wrapper panel
+        add(centerWrapper, BorderLayout.CENTER); // Add wrapper panel to the center of the main frame
+
+        // Right panel for three vertically aligned buttons
+        JPanel topPanel = new JPanel();
+        topPanel.add(Box.createHorizontalGlue());
+        topPanel.setLayout(new BoxLayout(topPanel, BoxLayout.X_AXIS));
+        FilterButton rightRainfallViewButton = new FilterButton("Rainfall view", "#79e5de");
+        FilterButton rightHumidityViewButton = new FilterButton("Humidity View", "#c9c386");
+        FilterButton rightSunlightViewButton = new FilterButton("Sunlight View", "#f7d913");
+
+
+        topPanel.add(rightRainfallViewButton);
+        topPanel.add(rightHumidityViewButton);
+        topPanel.add(rightSunlightViewButton);
+        topPanel.add(Box.createHorizontalGlue());
+        topPanel.setBorder(BorderFactory.createEmptyBorder(0, 5, 0, 0)); 
+        add(topPanel, BorderLayout.NORTH); // Add right panel to the east side of the frame
+
+        // Bottom panel for the ribbon of buttons
+        JPanel bottomPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
+        bottomPanel.add(Box.createHorizontalGlue());
+        for (int m = 0; m < 5; m++) { // Example of 5 buttons; adjust as needed
+            JButton bottomButton = new JButton("Plant " + (m + 1));
+            bottomPanel.add(bottomButton);
+        }
+        bottomPanel.add(Box.createHorizontalGlue());
+        add(bottomPanel, BorderLayout.SOUTH); // Add bottom panel to the south of the frame
+
         // Make the frame visible
-        setVisible(true);
+        setVisible(true);    
     }
 
     public void feedbackToUser() {}
+
+    public void customiseFilterRibbonBtns(JButton filterBtn) {
+        filterBtn.setFont(new Font("FantasqueSansM Nerd Font", Font.BOLD, 18)); // Change font type and size
+        // Set colors
+        filterBtn.setForeground(Color.decode("#21201d")); // Text color
+        filterBtn.setBackground(Color.WHITE); // Text color
+        // Set border
+        filterBtn.setBorder(BorderFactory.createLineBorder(Color.WHITE, 15)); // Black border
+        // Additional styling
+        filterBtn.setFocusPainted(false); // Remove focus outline
+        filterBtn.setOpaque(true); // Ensure the background color is rendered
+    }
 
     /*private void createFrame() {
         this.player1.setLocationRelativeTo((Component)null);
