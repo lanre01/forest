@@ -7,7 +7,7 @@ public class View extends JFrame {
     Controller controller;
     Ground[] grounds = new Ground[20*20];
 
-    int mapSize = 20;
+    int mapSize = 10;
 
     public View() {}
 
