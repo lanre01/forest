@@ -27,7 +27,7 @@ public class View extends JFrame {
         // Set up main frame properties
         this.model = model;
         this.controller = controller;
-        setTitle("10x10 Button Grid");
+        setTitle("Farmland Simulation");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setSize(1920, 1080);
         setLayout(new BorderLayout()); // Use BorderLayout for main frame
@@ -70,7 +70,6 @@ public class View extends JFrame {
     }
 
     public void feedbackToUser() {}
-
 
     /*private void createFrame() {
         this.player1.setLocationRelativeTo((Component)null);

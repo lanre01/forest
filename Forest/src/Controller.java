@@ -74,6 +74,13 @@ public class Controller {
 
     public void pauseSimulation() {
         simulation.stop();
+        Timer timer = new Timer(500, new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                updateSimulation();
+            }
+        });
+        timer.start();
     }
 
 
@@ -113,8 +120,8 @@ public class Controller {
                     model.setButtonColor(Color.WHITE, x, y);
                 } else {
                     adjustCellColor(i);
-                    // Spread if growth rate is high (lowered threshold from 0.8 to 0.6)
-                    if (growthRate[i] > 0.9 && random() < 0.5) {
+
+                    if (growthRate[i] > 0.6) {
                         int x = i / 10;
                         int y = i % 10;
                         spreadToNeighbors(x, y, Plants[i], true);
@@ -152,19 +159,19 @@ public class Controller {
     private void propagationFunction(int index, int plant) {
         switch (plant) {
             case PLANT_OAK_TREE:
-                growthRate[index] += calculateGrowth(index, 0.5, 1.0, 0.3, 1.0, 0.3, 1.0);
+                growthRate[index] += calculateGrowth(index, 0.6, 0.9, 0.4, 0.7, 0.4, 0.6);
                 break;
             case PLANT_CACTUS:
-                growthRate[index] += calculateGrowth(index, 0.5, 1.0, 0.1, 1.0, 0.1, 1.0);
+                growthRate[index] += calculateGrowth(index, 0.8, 1.0, 0.1, 0.3, 0.1, 0.4);
                 break;
             case PLANT_FERN:
-                growthRate[index] += calculateGrowth(index, 0.2, 1.0, 0.5, 1.0, 0.5, 1.0);
+                growthRate[index] += calculateGrowth(index, 0.2, 0.5, 0.7, 0.9, 0.7, 0.9);
                 break;
             case PLANT_PINE_TREE:
-                growthRate[index] += calculateGrowth(index, 0.5, 1.0, 0.3, 1.0, 0.3, 1.0);
+                growthRate[index] += calculateGrowth(index, 0.5, 0.8, 0.3, 0.6, 0.3, 0.5);
                 break;
             case PLANT_RICE_PLANT:
-                growthRate[index] += calculateGrowth(index, 0.5, 1.0, 0.5, 1.0, 0.5, 1.0);
+                growthRate[index] += calculateGrowth(index, 0.6, 0.8, 0.7, 0.9, 0.6, 0.9);
                 break;
             default:
                 return;
