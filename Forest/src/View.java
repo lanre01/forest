@@ -25,13 +25,8 @@ public class View extends JFrame {
             for (int j = 0; j < 10; j++) {
 
                 Ground button = new Ground(this.model, this.controller,this, i, j);
-                button.addActionListener(new ActionListener() {
-                    @Override
-                    public void actionPerformed(ActionEvent e) {
-                        System.out.println("Button pressed: " + button.getText());
-                    }
-                });
                 grounds[(10 * i) + j] = button;
+                model.setSoilValue(Math.random(), i, j);
                 add(button); // Add button to the frame directly\
             }
         }
