@@ -32,7 +32,7 @@ public class Model {
     }
 
     public Boolean canClick() {
-        return (numberOfClicks <= 5);
+        return (numberOfClicks <= 4);
     }
 
     public void setPlant(int plant, int x, int y) {
