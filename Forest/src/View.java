@@ -83,8 +83,9 @@ public class View extends JFrame {
         PlantsButton ricePlantLegend = new PlantsButton("Rice Plant", controller.InitColors[5], Color.WHITE);
 
         JPanel leftPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
-        cactCountBtn = new PlantsButton("Cactus Count: 0", controller.InitColors[1], Color.WHITE);
-        oakCountBtn = new PlantsButton("Oak Wood Count: 0", controller.InitColors[2], Color.BLACK);
+        leftPanel.setLayout(new BoxLayout(leftPanel, BoxLayout.Y_AXIS));
+        cactCountBtn = new PlantsButton("Cactus Count: 0", controller.InitColors[2], Color.BLACK);
+        oakCountBtn = new PlantsButton("Oak Wood Count: 0", controller.InitColors[1], Color.WHITE);
         fernCountBtn = new PlantsButton("Fern Count: 0", controller.InitColors[3], Color.WHITE);
         pineCountBtn = new PlantsButton("Pine Tree Count: 0", controller.InitColors[4], Color.BLACK);
         riceCountBtn = new PlantsButton("Rice Plant Count: 0", controller.InitColors[5], Color.WHITE);

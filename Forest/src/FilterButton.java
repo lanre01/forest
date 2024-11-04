@@ -113,7 +113,7 @@ public class FilterButton extends ViewButton {
 
     public static Color adjustBrightness(Color color, float brightness) {
         // Ensure brightness stays within the range [0.0, 1.0]
-        brightness = Math.min(Math.max(brightness, 0.0f), 1.0f);
+        brightness = Math.min(Math.max(0.5f + brightness, 0.0f), 1.0f);
         
         // Convert RGB to HSB values
         float[] hsbVals = Color.RGBtoHSB(color.getRed(), color.getGreen(), color.getBlue(), null);
